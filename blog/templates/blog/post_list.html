@@ -1,4 +1,51 @@
 <!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		<title> First page </title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<h1> Hello world </h1>
+		<canvas id="canvasld" width="800" height="350"
+		style="border:1px solid black;"></canvas>
+		<script>
+			var canvas = document.getElementById("canvasld");
+			var ctx = canvas.getContext("2d");
+
+			var red = new Image(), black = new Image();
+			var tim = 0;
+			function func() {
+				tim += 1;
+
+				if(tim <= 350) move();
+			}
+			black.onload = function() {
+				setInterval(func, 5);
+			}
+
+			black.src = "{% static "images/black.png" %}";
+
+			var obj = {w: 40, h: 40};
+			var pos = {x:20, y:canvas.height - 30, dx:0.6, dy:-1.5};
+			function move() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				if(pos.x < canvas.width - 20) pos.x += pos.dx;
+				else pos.x = 20, pos.y = canvas.height - 30, pos.dy = -1.5;
+
+				if(pos.y < canvas.height - 20) {
+					pos.y += pos.dy;
+					pos.dy += 0.005;
+				} else {
+					pos.x = 20, pos.y = canvas.height - 30, pos.dy = -1.5;
+				}
+				ctx.drawImage(black, pos.x, pos.y, obj.w, obj.h);
+			}
+		</script>
+	</body>
+</html>
+
+/*<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8"/>
@@ -9,4 +56,4 @@
         <h3> <div style="color: white; text-align: center"> It's Liza and Daniel's project </div> </h3>
         <h3> <div style="color: white; text-align: center"> <a href = "about"> This gyper</a></div> </h3>
     </body>
-</html>
+</html>*/
